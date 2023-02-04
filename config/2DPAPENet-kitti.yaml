@@ -1,0 +1,46 @@
+format_version: 1
+
+dataset_params:
+  data_folder: "/home/lab404/ssd_1t/dataset/DepthKITTI/kitti_depth/depth"
+  data_folder_rgb: "/home/lab404/ssd_1t/dataset/DepthKITTI/kitti_raw"
+  # data_folder: "/root/autodl-tmp/DepthKITTI/kitti_depth/depth"
+  # data_folder_rgb: "/root/autodl-tmp/DepthKITTI/kitti_raw"
+  image_h: 352
+  image_w: 1216
+  random_crop: True
+  random_crop_height: 320
+  random_crop_width: 1216
+  jitter: 0.1
+
+model_params:
+  network_model: "sparse2dense"
+  criterion: "l2" #["l2" "l1"]
+  mode: "train" #["train", "val", "test"]
+  data_folder_save: "./submit_test/"
+  mylog_folder: "./mylog"
+  log_folder: "./logs"
+  checkpoint: 'bestmodel'
+  hidden_layer: 64
+
+train_params:
+  batch_size: 2
+  seed: 2001
+  workers: 4
+  epochs: 100
+  start_epoch: 0
+  learning_rate: 0.001
+  weight_decay: 0.000001
+  lr_scheduler: StepLR #["CosineAnnealingLR", "ReduceLROnPlateau", "StepLR"]
+  decay_step: 2
+  decay_rate: 0.9
+  gpu: '0'
+  monitor: 'val/rmse'
+  stop_patience: 5 # early stopping 
+
+  train_stage0: 1
+  train_stage1: 3
+
+  val: "select" # ["select", "full"]
+  rank_metric: 'rmse'
+
+  log_freq: 10
