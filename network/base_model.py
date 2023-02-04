@@ -71,9 +71,9 @@ class LightningBaseModel(pl.LightningModule):
         coarse_loss = self.depth_criterion(coarse_output, gt)
         refined_loss = self.depth_criterion(refined_output, gt)
         if self.current_epoch < self.args['train_params']['train_stage0']:
-            loss = 0.6 * coarse_loss + 0.4 * refined_loss
+            loss = 0.6 * refined_loss + 0.4 * coarse_loss
         elif self.current_epoch < self.args['train_params']['train_stage1']:
-            loss = 0.9 * coarse_loss + 0.1 * refined_loss
+            loss = 0.9 * refined_loss + 0.1 * coarse_loss
         else:
             loss = refined_loss
         self.log('train/loss', loss.item())
